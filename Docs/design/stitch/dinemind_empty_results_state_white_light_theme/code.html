@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #FFFFFF;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    /* Custom range thumb styling for red theme */
+    input[type=range]::-webkit-slider-thumb {
+      background: #DC2626;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "crimson-primary": "#DC2626",
+            "crimson-deep": "#B91C1C",
+            "crimson-tint": "#FEF2F2",
+            "crimson-border": "#FECACA",
+            "text-primary": "#111827",
+            "text-secondary": "#374151",
+            "text-muted": "#6B7280",
+            "border-rule": "#E5E7EB",
+            "border-subtle": "#F3F4F6",
+            "surface-pure": "#FFFFFF",
+            primary: "#DC2626",
+            "primary-container": "#B91C1C",
+            secondary: "#4B5563",
+            "on-primary": "#FFFFFF",
+            "surface": "#FFFFFF",
+            "on-surface": "#111827",
+            "on-surface-variant": "#374151"
+          },
+          fontFamily: {
+            display: ["Epilogue", "sans-serif"],
+            headline: ["Epilogue", "sans-serif"],
+            body: ["Hanken Grotesk", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-white font-body text-text-secondary antialiased">
+<!-- Top Navigation Bar: Pure White (#FFFFFF) with crisp subtle border -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border-rule">
+<div class="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3 sm:gap-4 min-w-0">
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="material-symbols-outlined text-crimson-primary text-[22px] select-none">auto_awesome</span>
+<span class="font-headline text-lg sm:text-xl text-text-primary tracking-tight font-bold">DineMind</span>
+</div>
+<span class="hidden md:inline-block w-[1px] h-4 bg-border-rule"></span>
+<span class="hidden md:inline text-text-muted text-xs tracking-normal truncate">AI restaurant picks, explained</span>
+<div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-crimson-tint border border-crimson-border text-crimson-primary text-xs font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-crimson-primary shrink-0 animate-pulse"></span>
+<span class="whitespace-nowrap">Bangalore &amp; Delhi live</span>
+</div>
+</div>
+<div class="flex items-center gap-3 sm:gap-6">
+<nav class="hidden lg:flex items-center gap-1 p-1">
+<a aria-current="page" class="px-3 py-1.5 transition-colors bg-crimson-tint text-crimson-primary border border-crimson-border font-semibold rounded-lg text-sm" data-path="concierge-feed" href="#">Concierge</a>
+<a class="px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border-subtle transition-colors text-sm font-medium" data-path="taste-dossiers" href="#">Dossiers</a>
+<a class="px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border-subtle transition-colors text-sm font-medium" data-path="saved-tables" href="#">Saved Tables</a>
+<a class="px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-border-subtle transition-colors text-sm font-medium" data-path="taste-profile" href="#">Taste Profile</a>
+</nav>
+<div class="flex items-center gap-2 shrink-0">
+<div class="w-8 h-8 rounded-full bg-crimson-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-white text-[18px]">person</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Pure White Workspace -->
+<main class="w-full pt-16 bg-white min-h-screen">
+<div class="flex flex-col w-full">
+<div class="max-w-[1180px] w-full mx-auto py-8 px-4 sm:px-6">
+<!-- Editorial Breadcrumb / Sub-bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-border-rule">
+<div class="flex items-center gap-2 text-text-muted text-xs sm:text-sm font-medium">
+<span class="hover:text-text-primary cursor-pointer transition-colors">Concierge</span>
+<span class="text-border-rule">/</span>
+<span class="hover:text-text-primary cursor-pointer transition-colors">Bangalore</span>
+<span class="text-border-rule">/</span>
+<span class="text-text-primary font-semibold">Custom Query Discovery</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-border-subtle border border-border-rule text-xs text-text-muted">
+<span class="w-1.5 h-1.5 rounded-full bg-crimson-primary animate-pulse"></span>
+              Index synched 4m ago
+            </span>
+<button class="text-text-secondary hover:text-crimson-primary transition-colors text-xs sm:text-sm font-medium flex items-center gap-1" id="resetAllTopBtn">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+              Reset Criteria
+            </button>
+</div>
+</div>
+<!-- Main Two-Column Layout -->
+<div class="grid grid-cols-12 gap-8 items-start">
+<!-- LEFT COLUMN: Sticky Filter Criteria Panel (5 cols) -->
+<div class="col-span-12 lg:col-span-5 lg:sticky lg:top-24 space-y-6">
+<!-- Pure white container with crisp light gray border -->
+<div class="bg-white rounded-xl p-6 border border-border-rule shadow-sm">
+<div class="flex items-center justify-between pb-4 mb-5 border-b border-border-rule">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-crimson-primary text-[20px]">tune</span>
+<h2 class="font-headline text-lg text-text-primary font-bold">Active Criteria</h2>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-crimson-tint text-crimson-primary border border-crimson-border text-xs font-semibold">
+                  0 Matches
+                </span>
+</div>
+<form class="space-y-5" id="filterForm" onsubmit="event.preventDefault();">
+<!-- Location -->
+<div>
+<label class="block text-xs font-semibold text-text-primary mb-1.5 uppercase tracking-wide">Metro Region</label>
+<div class="relative">
+<select class="w-full bg-white border border-border-rule rounded-lg py-2.5 pl-9 pr-8 text-sm text-text-primary appearance-none focus:outline-none focus:ring-2 focus:ring-crimson-primary/30 focus:border-crimson-primary transition" id="filterLocation">
+<option selected="" value="Bangalore">Bangalore, Karnataka</option>
+<option value="Delhi NCR">Delhi NCR</option>
+<option value="Mumbai">Mumbai</option>
+</select>
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-text-muted text-[18px] pointer-events-none">location_on</span>
+<span class="material-symbols-outlined absolute right-2.5 top-2.5 text-text-muted text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Cuisine Genre -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-semibold text-text-primary uppercase tracking-wide">Cuisine Genre</label>
+<span class="text-xs text-crimson-primary font-semibold">Hyper-specific</span>
+</div>
+<div class="relative">
+<input class="w-full bg-white border border-border-rule rounded-lg py-2.5 pl-9 pr-8 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-crimson-primary/30 focus:border-crimson-primary transition" id="filterCuisine" type="text" value="Ethiopian Artisanal"/>
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-text-muted text-[18px]">ramen_dining</span>
+<button class="material-symbols-outlined absolute right-2.5 top-2.5 text-text-muted hover:text-text-primary text-[18px] transition-colors" onclick="document.getElementById('filterCuisine').value='All Cuisines'; document.getElementById('filterCuisine').dispatchEvent(new Event('change'));" type="button">close</button>
+</div>
+</div>
+<!-- Price Tier / Budget -->
+<div>
+<label class="block text-xs font-semibold text-text-primary mb-1.5 uppercase tracking-wide">Budget Constraint</label>
+<div class="grid grid-cols-4 gap-2">
+<button class="budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-crimson-primary text-white shadow-sm border border-crimson-deep transition-colors" data-budget="1" type="button">₹</button>
+<button class="budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-white text-text-secondary border border-border-rule hover:bg-border-subtle transition-colors" data-budget="2" type="button">₹₹</button>
+<button class="budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-white text-text-secondary border border-border-rule hover:bg-border-subtle transition-colors" data-budget="3" type="button">₹₹₹</button>
+<button class="budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-white text-text-secondary border border-border-rule hover:bg-border-subtle transition-colors" data-budget="4" type="button">₹₹₹₹</button>
+</div>
+<p class="text-xs text-crimson-primary font-medium mt-1.5">Selected: Low Budget (Under ₹600 for two)</p>
+</div>
+<!-- Rating Threshold -->
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-semibold text-text-primary uppercase tracking-wide">Minimum Rating</label>
+<span class="text-xs font-bold text-crimson-primary" id="ratingDisplay">★ 4.8</span>
+</div>
+<input class="w-full accent-crimson-primary bg-border-rule cursor-pointer h-1.5 rounded-lg appearance-none" id="ratingSlider" max="5.0" min="3.5" step="0.1" type="range" value="4.8"/>
+<div class="flex justify-between text-text-muted text-xs mt-1">
+<span>★ 3.5</span>
+<span>★ 4.2</span>
+<span class="text-crimson-primary font-bold">★ 4.8</span>
+<span>★ 5.0</span>
+</div>
+</div>
+<!-- Sensory Tags / Vibe -->
+<div>
+<label class="block text-xs font-semibold text-text-primary mb-2 uppercase tracking-wide">Dining Atmosphere</label>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-crimson-tint border border-crimson-border text-crimson-primary text-xs font-medium">
+                      Quiet Table
+                      <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-crimson-deep">close</span>
+</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-crimson-tint border border-crimson-border text-crimson-primary text-xs font-medium">
+                      Natural Fermentation
+                      <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-crimson-deep">close</span>
+</span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-border-rule text-text-muted text-xs hover:text-text-primary hover:border-text-secondary cursor-pointer transition-colors">
+                      + Add Vibe
+                    </span>
+</div>
+</div>
+<!-- Filter CTA Section -->
+<div class="pt-3 space-y-2">
+<button class="w-full py-3 px-4 rounded-lg bg-crimson-primary hover:bg-crimson-deep text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm" id="applyFiltersBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">search</span>
+                    Re-scan Tables
+                  </button>
+<button class="w-full py-2 px-4 rounded-lg bg-white border border-border-rule hover:bg-border-subtle text-text-secondary hover:text-text-primary text-xs font-semibold transition-colors text-center" id="clearFiltersBtn" type="button">
+                    Clear Strictest Parameters
+                  </button>
+</div>
+</form>
+<!-- Culinary Engine Diagnostic Box -->
+<div class="mt-6 pt-4 border-t border-border-rule flex items-start gap-3">
+<span class="material-symbols-outlined text-crimson-primary text-[18px] shrink-0 mt-0.5">neurology</span>
+<div class="text-text-secondary text-xs leading-relaxed">
+<span class="font-bold text-text-primary">Algorithmic Friction:</span> Rating ceiling (4.8) paired with micro-niche cuisine makes availability statistically less than 0.04% in Bangalore south &amp; central hubs.
+                </div>
+</div>
+</div>
+<!-- Mini concierge voice banner: pure white card with crisp border -->
+<div class="p-4 rounded-xl bg-white border border-border-rule shadow-sm flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-crimson-tint border border-crimson-border text-crimson-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div class="text-xs text-text-secondary">
+<p class="font-bold text-text-primary text-sm">Need personal guidance?</p>
+<p class="text-text-muted mt-0.5">Ask the Concierge in chat to source alternative pop-ups.</p>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Empty State Area (7 cols) -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<!-- Empty State Boutique Card: Pure White with crisp gray border -->
+<div class="bg-white rounded-xl p-8 lg:p-10 border border-border-rule shadow-sm text-center relative overflow-hidden">
+<!-- Clean Minimalist Vector Emblem (Strictly no photos) -->
+<div class="relative mx-auto w-24 h-24 mb-6 flex items-center justify-center">
+<!-- Warm Crimson Tint Rings -->
+<div class="absolute inset-0 rounded-full bg-crimson-tint border border-crimson-border animate-pulse"></div>
+<div class="absolute inset-2 rounded-full bg-white border border-border-rule shadow-sm flex items-center justify-center">
+<!-- Clean Line Vector Art Composition: Magnifier, plate rim, fork & sparkle -->
+<svg class="w-12 h-12 text-crimson-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<!-- Plate rim background -->
+<circle cx="23" cy="23" opacity="0.3" r="16" stroke="currentColor" stroke-dasharray="3 3" stroke-width="1.5"></circle>
+<!-- Plate center subtle tone -->
+<circle cx="23" cy="23" fill="#DC2626" opacity="0.06" r="10"></circle>
+<!-- Fork contour -->
+<path d="M21 16V22C21 22.8 21.7 23.5 22.5 23.5V30H23.5V23.5C24.3 23.5 25 22.8 25 22V16M21 16H22M25 16H24M23 16V20" opacity="0.6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.25"></path>
+<!-- Magnifying glass overlaying -->
+<circle cx="27" cy="22" fill="#FFFFFF" r="9" stroke="currentColor" stroke-width="2"></circle>
+<path d="M33.5 28.5L40 35" stroke="currentColor" stroke-linecap="round" stroke-width="2.2"></path>
+<!-- Sparkles in red -->
+<path d="M12 14L13 11L16 12L13 13L12 16L11 13L8 12L11 11L12 14Z" fill="currentColor" opacity="0.8"></path>
+<path d="M35 12L35.6 10L37.5 10.6L35.6 11.2L35 13L34.4 11.2L32.5 10.6L34.4 10L35 12Z" fill="currentColor" opacity="0.9"></path>
+</svg>
+</div>
+</div>
+<!-- Heading (Epilogue / High Contrast Charcoal) -->
+<h3 class="font-headline text-2xl lg:text-3xl font-bold text-text-primary tracking-tight">
+                No restaurants match your criteria
+              </h3>
+<!-- Description -->
+<p class="text-sm sm:text-base text-text-secondary max-w-md mx-auto mt-3 mb-7 leading-relaxed">
+                We couldn’t find dining spots in Bangalore meeting all strict constraints (<span class="text-crimson-primary font-semibold">Ethiopian Artisanal + Low Budget + ★4.8 rating</span>). Try broadening your search or adjusting rating thresholds.
+              </p>
+<!-- Primary Actions with Bold Crimson -->
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-crimson-primary hover:bg-crimson-deep text-white text-sm font-semibold shadow-sm transition-colors flex items-center justify-center gap-2" id="adjustFiltersAction">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+                  Adjust filters
+                </button>
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-white hover:bg-border-subtle text-text-primary border border-border-rule text-sm font-semibold transition-colors shadow-sm flex items-center justify-center gap-2" id="broadenCuisineAction">
+<span class="material-symbols-outlined text-text-muted text-[18px]">public</span>
+                  Broaden to all cuisines
+                </button>
+</div>
+<!-- Quick Suggestion Box: Culinary Engine -->
+<div class="bg-white border border-border-rule rounded-xl p-5 text-left shadow-sm max-w-xl mx-auto">
+<div class="flex items-center gap-2 mb-3 text-crimson-primary text-xs font-bold tracking-wider uppercase">
+<span class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+                  Suggestions from our culinary engine
+                </div>
+<div class="space-y-3 text-sm">
+<!-- Suggestion 1 -->
+<div class="flex items-start justify-between gap-3 p-3 rounded-lg border border-transparent hover:border-crimson-border hover:bg-crimson-tint/40 transition group cursor-pointer" onclick="document.getElementById('ratingSlider').value='4.0'; document.getElementById('ratingSlider').dispatchEvent(new Event('input'));">
+<div class="flex items-start gap-3">
+<!-- Red Step Badge -->
+<span class="w-5 h-5 rounded-full bg-crimson-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+<div>
+<span class="font-semibold text-text-primary group-hover:text-crimson-primary transition-colors">Lower minimum rating to ★ 4.0</span>
+<p class="text-xs text-text-muted mt-0.5">Unlocks 12 curated spots serving traditional East African flatbreads &amp; stews.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted group-hover:text-crimson-primary transition-colors text-[20px] shrink-0">arrow_forward</span>
+</div>
+<!-- Suggestion 2 -->
+<div class="flex items-start justify-between gap-3 p-3 rounded-lg border border-transparent hover:border-crimson-border hover:bg-crimson-tint/40 transition group cursor-pointer" onclick="document.getElementById('filterCuisine').value='Mediterranean &amp; Continental'; document.getElementById('filterCuisine').dispatchEvent(new Event('change'));">
+<div class="flex items-start gap-3">
+<!-- Red Step Badge -->
+<span class="w-5 h-5 rounded-full bg-crimson-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+<div>
+<span class="font-semibold text-text-primary group-hover:text-crimson-primary transition-colors">Expand cuisine to Mediterranean &amp; Continental</span>
+<p class="text-xs text-text-muted mt-0.5">Retains earthy fermentations and wood-fired profiles within Bangalore central.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted group-hover:text-crimson-primary transition-colors text-[20px] shrink-0">arrow_forward</span>
+</div>
+<!-- Suggestion 3 -->
+<div class="flex items-start justify-between gap-3 p-3 rounded-lg border border-transparent hover:border-crimson-border hover:bg-crimson-tint/40 transition group cursor-pointer" onclick="document.querySelectorAll('.budget-btn')[1].click();">
+<div class="flex items-start gap-3">
+<!-- Red Step Badge -->
+<span class="w-5 h-5 rounded-full bg-crimson-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+<div>
+<span class="font-semibold text-text-primary group-hover:text-crimson-primary transition-colors">Set budget to Medium (₹₹)</span>
+<p class="text-xs text-text-muted mt-0.5">Provides access to artisanal heritage dining rooms in Indiranagar and Lavelle Rd.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-text-muted group-hover:text-crimson-primary transition-colors text-[20px] shrink-0">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Alternative Dossiers Near You: Strictly Vector Line Art Icons (Zero Photos) -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-headline text-lg text-text-primary font-bold">Alternative Dossiers Near You</h4>
+<p class="text-xs sm:text-sm text-text-muted">Distinct culinary profiles popular when artisanal filters are broadened.</p>
+</div>
+<a class="text-xs sm:text-sm text-crimson-primary hover:text-crimson-deep flex items-center gap-1 font-semibold" href="#">
+                  Explore All
+                  <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Card 1: Brik Oven & Hearth Table (Artisanal Bakery & Hearth Vector Line Art) -->
+<div class="bg-white rounded-xl p-5 border border-border-rule shadow-sm hover:border-crimson-border hover:shadow transition flex flex-col justify-between group">
+<div>
+<!-- Top Bar: Vector Art Icon + Badges -->
+<div class="flex items-center justify-between gap-3 mb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-crimson-tint border border-crimson-border flex items-center justify-center text-crimson-primary shrink-0">
+<!-- Vector Line Art: Hearth / Brick Oven & Bread Flame -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 19V9a8 8 0 0 1 16 0v10" stroke-linecap="round"></path>
+<path d="M2 19h20" stroke-linecap="round"></path>
+<path d="M8 19v-4a4 4 0 0 1 8 0v4" stroke-linecap="round"></path>
+<path d="M12 11c0 1.5-1 2-1 3h2c0-1-1-1.5-1-3z" fill="currentColor" stroke="none"></path>
+</svg>
+</div>
+<div>
+<span class="text-[11px] uppercase tracking-wider text-text-muted font-bold block">Sourdough &amp; Ferments</span>
+<span class="text-xs font-bold text-crimson-primary">★ 4.6</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-border-subtle text-text-secondary border border-border-rule">Medium</span>
+</div>
+<h5 class="font-headline text-base text-text-primary font-bold group-hover:text-crimson-primary transition-colors">Brik Oven &amp; Hearth Table</h5>
+<p class="text-xs text-text-secondary mt-1.5 line-clamp-2 leading-relaxed">
+                      Indiranagar • ₹₹ • Hand-milled grains, live wood fire, natural ambient sourdoughs.
+                    </p>
+</div>
+<div class="mt-4 pt-3 border-t border-border-rule flex items-center justify-between text-xs">
+<span class="text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+                      Live Hearth
+                    </span>
+<button class="text-crimson-primary font-bold hover:text-crimson-deep flex items-center gap-0.5">
+                      View Dossier
+                      <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Habesha Heritage Table (Traditional Messob / Teff Injera Vector Line Art) -->
+<div class="bg-white rounded-xl p-5 border border-border-rule shadow-sm hover:border-crimson-border hover:shadow transition flex flex-col justify-between group">
+<div>
+<!-- Top Bar: Vector Art Icon + Badges -->
+<div class="flex items-center justify-between gap-3 mb-3">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-crimson-tint border border-crimson-border flex items-center justify-center text-crimson-primary shrink-0">
+<!-- Vector Line Art: Traditional Mesob woven dining basket & pot -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<ellipse cx="12" cy="7" rx="6" ry="2.5"></ellipse>
+<path d="M6 7v4c0 3.3 2.7 6 6 6s6-2.7 6-6V7" stroke-linecap="round"></path>
+<path d="M10 17v4m4-4v4M8 21h8" stroke-linecap="round"></path>
+<path d="M12 2v2.5" stroke-linecap="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-[11px] uppercase tracking-wider text-text-muted font-bold block">Levantine &amp; Horn of Africa</span>
+<span class="text-xs font-bold text-crimson-primary">★ 4.4</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-crimson-tint text-crimson-primary border border-crimson-border">Close Match</span>
+</div>
+<h5 class="font-headline text-base text-text-primary font-bold group-hover:text-crimson-primary transition-colors">Habesha Heritage Table</h5>
+<p class="text-xs text-text-secondary mt-1.5 line-clamp-2 leading-relaxed">
+                      Kalyan Nagar • ₹₹ • Traditional Teff injera, slow berbere braised lentils, community mesob.
+                    </p>
+</div>
+<div class="mt-4 pt-3 border-t border-border-rule flex items-center justify-between text-xs">
+<span class="text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">dinner_dining</span>
+                      Communal Feast
+                    </span>
+<button class="text-crimson-primary font-bold hover:text-crimson-deep flex items-center gap-0.5">
+                      View Dossier
+                      <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Script -->
+<script>
+        (function() {
+          const slider = document.getElementById('ratingSlider');
+          const ratingDisplay = document.getElementById('ratingDisplay');
+          const budgetButtons = document.querySelectorAll('.budget-btn');
+          const cuisineInput = document.getElementById('filterCuisine');
+          const adjustBtn = document.getElementById('adjustFiltersAction');
+          const broadenBtn = document.getElementById('broadenCuisineAction');
+          const clearBtn = document.getElementById('clearFiltersBtn');
+          const resetTopBtn = document.getElementById('resetAllTopBtn');
+
+          if (slider && ratingDisplay) {
+            slider.addEventListener('input', (e) => {
+              ratingDisplay.textContent = `★ ${Number(e.target.value).toFixed(1)}`;
+            });
+          }
+
+          budgetButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+              budgetButtons.forEach(b => {
+                b.className = 'budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-white text-text-secondary border border-border-rule hover:bg-border-subtle transition-colors';
+              });
+              btn.className = 'budget-btn py-2 rounded-lg text-sm font-semibold text-center bg-crimson-primary text-white shadow-sm border border-crimson-deep transition-colors';
+            });
+          });
+
+          if (broadenBtn && cuisineInput) {
+            broadenBtn.addEventListener('click', () => {
+              cuisineInput.value = 'All Cuisines';
+              cuisineInput.classList.add('ring-2', 'ring-crimson-primary', 'bg-crimson-tint');
+              setTimeout(() => {
+                cuisineInput.classList.remove('ring-2', 'ring-crimson-primary', 'bg-crimson-tint');
+              }, 600);
+            });
+          }
+
+          if (adjustBtn) {
+            adjustBtn.addEventListener('click', () => {
+              if (slider) {
+                slider.value = 4.2;
+                ratingDisplay.textContent = '★ 4.2';
+              }
+              if (budgetButtons[1]) budgetButtons[1].click();
+            });
+          }
+
+          const resetAction = () => {
+            if (slider) {
+              slider.value = 4.0;
+              ratingDisplay.textContent = '★ 4.0';
+            }
+            if (cuisineInput) cuisineInput.value = 'All Cuisines';
+            if (budgetButtons[1]) budgetButtons[1].click();
+          };
+
+          if (clearBtn) clearBtn.addEventListener('click', resetAction);
+          if (resetTopBtn) resetTopBtn.addEventListener('click', resetAction);
+        })();
+      </script>
+</div>
+</main>
+<!-- Footer: Strictly Pure White (#FFFFFF) with crisp border-rule -->
+<footer class="w-full bg-white border-t border-border-rule mt-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-text-muted text-xs">
+<div class="flex items-center gap-2 text-text-primary font-medium">
+<span class="material-symbols-outlined text-crimson-primary text-[18px]">auto_awesome</span>
+<span class="font-headline font-bold text-sm">DineMind</span>
+<span class="text-border-rule">•</span>
+<span class="text-text-muted">Curated AI Intelligence</span>
+</div>
+<div class="flex flex-wrap items-center gap-4 sm:gap-6">
+<span class="hover:text-text-primary cursor-pointer transition-colors">Editorial Standards</span>
+<span class="hover:text-text-primary cursor-pointer transition-colors">Bangalore Archive</span>
+<span class="hover:text-text-primary cursor-pointer transition-colors">Delhi Archive</span>
+<span class="hover:text-text-primary cursor-pointer transition-colors">Privacy &amp; Taste Memory</span>
+</div>
+<div class="text-text-muted">© 2025 DineMind. Quietly intelligent dining.</div>
+</div>
+</footer>
+</body></html>

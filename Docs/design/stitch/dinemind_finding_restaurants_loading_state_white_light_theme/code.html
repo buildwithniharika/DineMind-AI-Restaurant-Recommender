@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "crimson-primary": "#DC2626",
+            "crimson-deep": "#B91C1C",
+            "crimson-tint": "#FEF2F2",
+            "crimson-border": "#FECACA",
+            "text-primary": "#111827",
+            "text-secondary": "#374151",
+            "text-muted": "#6B7280",
+            "border-rule": "#E5E7EB",
+            "border-subtle": "#F3F4F6",
+            "surface-pure": "#FFFFFF",
+            "surface-card": "#FFFFFF",
+            "surface-subtle": "#F9FAFB",
+            "surface-muted": "#F3F4F6"
+          },
+          fontFamily: {
+            display: ["Epilogue", "sans-serif"],
+            headline: ["Epilogue", "sans-serif"],
+            body: ["Hanken Grotesk", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-white font-body text-text-primary antialiased min-h-screen flex flex-col">
+<!-- Fixed Header: Pure White with Crisp Border -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border-rule">
+<div class="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+<!-- Left: Logo & Subtitle -->
+<div class="flex items-center gap-4 min-w-0">
+<a class="flex items-center gap-2 shrink-0 group" href="#">
+<span class="material-symbols-outlined text-crimson-primary text-[22px] transition-transform group-hover:rotate-12 select-none">auto_awesome</span>
+<span class="font-headline font-bold text-xl text-text-primary tracking-tight">DineMind</span>
+</a>
+<span class="hidden md:inline-block w-[1px] h-4 bg-border-rule"></span>
+<span class="hidden md:inline text-text-muted text-sm tracking-normal truncate">AI restaurant picks, explained</span>
+<div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-200">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+<span class="whitespace-nowrap">Bangalore &amp; Delhi live</span>
+</div>
+</div>
+<!-- Right: Navigation & User -->
+<div class="flex items-center gap-6">
+<nav class="hidden lg:flex items-center gap-1 p-1 bg-surface-subtle rounded-lg border border-border-subtle">
+<a aria-current="page" class="px-3 py-1.5 rounded-md bg-white text-text-primary font-semibold text-sm shadow-sm border border-border-rule transition-all" href="#">Concierge</a>
+<a class="px-3 py-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-white/60 transition-colors text-sm font-medium" href="#">Dossiers</a>
+<a class="px-3 py-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-white/60 transition-colors text-sm font-medium" href="#">Saved Tables</a>
+<a class="px-3 py-1.5 rounded-md text-text-secondary hover:text-text-primary hover:bg-white/60 transition-colors text-sm font-medium" href="#">Taste Profile</a>
+</nav>
+<div class="flex items-center gap-2 shrink-0">
+<button class="w-9 h-9 rounded-full bg-surface-subtle border border-border-rule flex items-center justify-center text-text-secondary hover:text-crimson-primary hover:border-crimson-border transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas: Pure White -->
+<main class="w-full pt-16 bg-white flex-1">
+<div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 grid grid-cols-12 gap-8 items-start">
+<!-- LEFT COLUMN: Dine Criteria (Pure White Panel with Crisp Border) -->
+<aside class="col-span-12 lg:col-span-5 flex flex-col gap-5 bg-white p-6 rounded-xl border border-border-rule shadow-sm">
+<div class="flex items-center justify-between pb-2 border-b border-border-subtle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-crimson-primary text-[22px]">tune</span>
+<h2 class="font-headline text-lg font-bold text-text-primary tracking-tight">Dine Criteria</h2>
+</div>
+<button class="text-text-muted cursor-not-allowed text-xs font-medium opacity-60 flex items-center gap-1 hover:text-text-muted" disabled="">
+<span class="material-symbols-outlined text-[15px]">restart_alt</span>
+            Reset
+          </button>
+</div>
+<!-- Dimmed Inputs for Loading State -->
+<div class="flex flex-col gap-4 opacity-75 pointer-events-none select-none">
+<!-- City Selection -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-muted">Metropolitan Region</label>
+<div class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-surface-subtle border border-border-rule text-text-primary shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-crimson-primary text-[18px]">location_on</span>
+<span class="text-sm font-semibold text-text-primary">Bangalore</span>
+</div>
+<span class="text-xs px-2 py-0.5 rounded-full bg-white border border-border-rule text-text-secondary font-medium">Indiranagar &amp; Koramangala</span>
+</div>
+</div>
+<!-- Budget Scale -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-muted">Expected Budget Scale</label>
+<div class="grid grid-cols-3 gap-2">
+<div class="py-2 text-center rounded-lg bg-surface-subtle border border-border-subtle text-text-muted text-xs font-medium">Modest ($)</div>
+<!-- Active Pill in Crimson Tint with Crimson Accent -->
+<div class="py-2 text-center rounded-lg bg-crimson-tint border border-crimson-border text-crimson-deep text-xs font-bold shadow-sm flex items-center justify-center gap-1">
+<span>Medium ($$)</span>
+<span class="material-symbols-outlined text-crimson-primary text-[14px]">check</span>
+</div>
+<div class="py-2 text-center rounded-lg bg-surface-subtle border border-border-subtle text-text-muted text-xs font-medium">Bespoke ($$$)</div>
+</div>
+</div>
+<!-- Cuisine & Atmosphere -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-muted">Cuisine Genre</label>
+<div class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-surface-subtle border border-border-rule text-text-primary shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-crimson-primary text-[18px]">restaurant</span>
+<span class="text-sm font-semibold text-text-primary">Contemporary Italian</span>
+</div>
+<span class="text-xs text-text-muted">Wood-fired &amp; Fresh Pasta</span>
+</div>
+</div>
+<!-- Minimum Threshold Slider -->
+<div class="flex flex-col gap-1.5">
+<div class="flex justify-between items-center">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-muted">Verified Critic &amp; Guest Floor</label>
+<span class="text-xs text-crimson-primary font-bold">3.5+ Star Threshold</span>
+</div>
+<div class="h-2 w-full bg-surface-muted rounded-full overflow-hidden p-[1px] border border-border-subtle">
+<div class="h-full bg-crimson-primary rounded-full w-[70%] transition-all"></div>
+</div>
+</div>
+<!-- Atmosphere Attributes -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-muted">Atmosphere Attributes</label>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2.5 py-1 rounded-full bg-surface-subtle border border-border-rule text-text-secondary text-xs font-medium">Intimate Lighting</span>
+<span class="px-2.5 py-1 rounded-full bg-surface-subtle border border-border-rule text-text-secondary text-xs font-medium">Low Decibel</span>
+<span class="px-2.5 py-1 rounded-full bg-white border border-border-rule text-text-muted text-xs">Natural Wine Pairing</span>
+</div>
+</div>
+</div>
+<!-- Action Button Locked In Crimson Loading State -->
+<div class="pt-2">
+<button class="w-full py-3.5 px-6 rounded-lg bg-crimson-primary hover:bg-crimson-deep text-white font-semibold text-sm shadow-md shadow-red-500/20 flex items-center justify-center gap-2.5 cursor-wait transition-colors" disabled="">
+<svg class="animate-spin h-4 w-4 text-white" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+<path class="opacity-95" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+<span class="tracking-wide text-white">Finding restaurants for you…</span>
+</button>
+</div>
+<!-- Footnote Indicator -->
+<div class="flex items-center gap-2 text-text-muted text-xs px-1 pt-1">
+<span class="material-symbols-outlined text-[16px] text-text-muted">lock_clock</span>
+<span>Parameters secured during active ingestion.</span>
+</div>
+</aside>
+<!-- RIGHT COLUMN: Elegant Calm Loading Stream -->
+<section class="col-span-12 lg:col-span-7 flex flex-col gap-6">
+<!-- Top Status Indicator & Progress Timeline -->
+<div class="p-5 bg-white rounded-xl border border-border-rule shadow-sm flex flex-col gap-4">
+<div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row">
+<div class="flex items-center gap-3">
+<span class="relative flex h-3 w-3 shrink-0">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-crimson-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-crimson-primary"></span>
+</span>
+<span class="font-headline text-base sm:text-lg text-text-primary font-semibold tracking-tight">
+                Consulting culinary knowledge graph &amp; reviews for Bangalore...
+              </span>
+</div>
+<!-- Step Badge in Crimson Red -->
+<span class="text-xs font-bold text-crimson-deep px-2.5 py-1 rounded-full bg-crimson-tint border border-crimson-border shrink-0 self-start sm:self-auto">
+              Step 2 of 3
+            </span>
+</div>
+<!-- Progress Step Checklist -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+<!-- Step 1: Complete -->
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-subtle border border-border-subtle">
+<span class="material-symbols-outlined text-emerald-600 text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-xs text-text-primary font-medium truncate">Matching cuisine &amp; budget</span>
+</div>
+<!-- Step 2: In Progress with Crimson Accent -->
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-crimson-tint border border-crimson-border">
+<svg class="animate-spin h-3.5 w-3.5 text-crimson-primary shrink-0" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-95" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor"></path>
+</svg>
+<span class="text-xs text-crimson-deep font-bold truncate">Sentiment &amp; ambiance</span>
+</div>
+<!-- Step 3: Pending -->
+<div class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-subtle/70 border border-border-subtle opacity-60">
+<span class="material-symbols-outlined text-text-muted text-[18px]">radio_button_unchecked</span>
+<span class="text-xs text-text-muted font-medium truncate">Personalizing selections</span>
+</div>
+</div>
+</div>
+<!-- SKELETON 1: Primary Match Card (Vector Only, Pure White Surface) -->
+<article class="p-6 rounded-xl bg-white border border-border-rule shadow-sm flex flex-col gap-4 animate-pulse">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-2.5 w-full">
+<div class="flex items-center gap-2">
+<!-- Rank pill placeholder -->
+<div class="h-5 w-16 bg-surface-muted rounded-full border border-border-subtle"></div>
+<!-- Location badge placeholder -->
+<div class="h-5 w-28 bg-surface-subtle rounded-full border border-border-subtle"></div>
+</div>
+<!-- Restaurant Title placeholder -->
+<div class="h-7 w-3/5 bg-surface-muted rounded"></div>
+<!-- Cuisine & Neighborhood tags -->
+<div class="flex items-center gap-2 pt-1">
+<div class="h-4 w-24 bg-surface-subtle rounded"></div>
+<span class="text-text-muted/40">•</span>
+<div class="h-4 w-20 bg-surface-subtle rounded"></div>
+<span class="text-text-muted/40">•</span>
+<div class="h-4 w-16 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<!-- Star Rating & Cost placeholder -->
+<div class="flex flex-col items-end gap-2 shrink-0">
+<div class="h-6 w-16 bg-surface-muted rounded-md border border-border-subtle"></div>
+<div class="h-4 w-24 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<!-- Soft AI Reasoning Skeleton Block with subtle crimson accent -->
+<div class="p-4 rounded-lg bg-surface-subtle border border-border-subtle flex flex-col gap-2.5">
+<div class="flex items-center gap-2">
+<div class="h-4 w-4 bg-crimson-primary/20 rounded-full flex items-center justify-center">
+<div class="h-2 w-2 bg-crimson-primary rounded-full"></div>
+</div>
+<div class="h-3.5 w-40 bg-crimson-tint border border-crimson-border/60 rounded"></div>
+</div>
+<div class="space-y-2 pt-1">
+<div class="h-3.5 w-11/12 bg-surface-muted rounded"></div>
+<div class="h-3.5 w-4/5 bg-surface-muted rounded"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex gap-2">
+<div class="h-6 w-20 bg-surface-subtle border border-border-subtle rounded-full"></div>
+<div class="h-6 w-24 bg-surface-subtle border border-border-subtle rounded-full"></div>
+</div>
+<div class="h-8 w-28 bg-surface-muted border border-border-rule rounded-lg"></div>
+</div>
+</article>
+<!-- SKELETON 2: Secondary Match Card -->
+<article class="p-6 rounded-xl bg-white border border-border-rule shadow-sm flex flex-col gap-4 animate-pulse">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-2.5 w-full">
+<div class="flex items-center gap-2">
+<div class="h-5 w-16 bg-surface-muted rounded-full border border-border-subtle"></div>
+<div class="h-5 w-24 bg-surface-subtle rounded-full border border-border-subtle"></div>
+</div>
+<div class="h-7 w-1/2 bg-surface-muted rounded"></div>
+<div class="flex items-center gap-2 pt-1">
+<div class="h-4 w-28 bg-surface-subtle rounded"></div>
+<span class="text-text-muted/40">•</span>
+<div class="h-4 w-20 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2 shrink-0">
+<div class="h-6 w-16 bg-surface-muted rounded-md border border-border-subtle"></div>
+<div class="h-4 w-20 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<!-- Reasoning Skeleton -->
+<div class="p-4 rounded-lg bg-surface-subtle border border-border-subtle flex flex-col gap-2.5">
+<div class="flex items-center gap-2">
+<div class="h-4 w-4 bg-crimson-primary/20 rounded-full flex items-center justify-center">
+<div class="h-2 w-2 bg-crimson-primary rounded-full"></div>
+</div>
+<div class="h-3.5 w-44 bg-crimson-tint border border-crimson-border/60 rounded"></div>
+</div>
+<div class="space-y-2 pt-1">
+<div class="h-3.5 w-full bg-surface-muted rounded"></div>
+<div class="h-3.5 w-3/4 bg-surface-muted rounded"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex gap-2">
+<div class="h-6 w-24 bg-surface-subtle border border-border-subtle rounded-full"></div>
+<div class="h-6 w-28 bg-surface-subtle border border-border-subtle rounded-full"></div>
+</div>
+<div class="h-8 w-28 bg-surface-muted border border-border-rule rounded-lg"></div>
+</div>
+</article>
+<!-- SKELETON 3: Tertiary Match Card -->
+<article class="p-6 rounded-xl bg-white border border-border-rule shadow-sm flex flex-col gap-4 animate-pulse">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-2.5 w-full">
+<div class="flex items-center gap-2">
+<div class="h-5 w-16 bg-surface-muted rounded-full border border-border-subtle"></div>
+<div class="h-5 w-32 bg-surface-subtle rounded-full border border-border-subtle"></div>
+</div>
+<div class="h-7 w-7/12 bg-surface-muted rounded"></div>
+<div class="flex items-center gap-2 pt-1">
+<div class="h-4 w-20 bg-surface-subtle rounded"></div>
+<span class="text-text-muted/40">•</span>
+<div class="h-4 w-24 bg-surface-subtle rounded"></div>
+<span class="text-text-muted/40">•</span>
+<div class="h-4 w-16 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<div class="flex flex-col items-end gap-2 shrink-0">
+<div class="h-6 w-16 bg-surface-muted rounded-md border border-border-subtle"></div>
+<div class="h-4 w-24 bg-surface-subtle rounded"></div>
+</div>
+</div>
+<!-- Reasoning Skeleton -->
+<div class="p-4 rounded-lg bg-surface-subtle border border-border-subtle flex flex-col gap-2.5">
+<div class="flex items-center gap-2">
+<div class="h-4 w-4 bg-crimson-primary/20 rounded-full flex items-center justify-center">
+<div class="h-2 w-2 bg-crimson-primary rounded-full"></div>
+</div>
+<div class="h-3.5 w-36 bg-crimson-tint border border-crimson-border/60 rounded"></div>
+</div>
+<div class="space-y-2 pt-1">
+<div class="h-3.5 w-10/12 bg-surface-muted rounded"></div>
+<div class="h-3.5 w-2/3 bg-surface-muted rounded"></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<div class="flex gap-2">
+<div class="h-6 w-20 bg-surface-subtle border border-border-subtle rounded-full"></div>
+<div class="h-6 w-16 bg-surface-subtle border border-border-subtle rounded-full"></div>
+</div>
+<div class="h-8 w-28 bg-surface-muted border border-border-rule rounded-lg"></div>
+</div>
+</article>
+</section>
+</div>
+</main>
+<!-- Fixed Pure White Footer -->
+<footer class="w-full bg-white border-t border-border-rule mt-12 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-text-muted">
+<div class="flex items-center gap-2 text-text-primary">
+<span class="material-symbols-outlined text-crimson-primary text-[18px]">auto_awesome</span>
+<span class="font-headline font-bold text-sm text-text-primary">DineMind</span>
+<span class="text-border-rule mx-1">•</span>
+<span class="text-text-secondary">Curated AI Intelligence</span>
+</div>
+<div class="flex flex-wrap items-center gap-6">
+<a class="hover:text-crimson-primary transition-colors" href="#">Editorial Standards</a>
+<a class="hover:text-crimson-primary transition-colors" href="#">Bangalore Archive</a>
+<a class="hover:text-crimson-primary transition-colors" href="#">Delhi Archive</a>
+<a class="hover:text-crimson-primary transition-colors" href="#">Privacy &amp; Taste Memory</a>
+</div>
+<div class="text-text-muted">
+        © 2025 DineMind. Quietly intelligent dining.
+      </div>
+</div>
+</footer>
+</body></html>
