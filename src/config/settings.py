@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal, Mapping
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -64,6 +65,25 @@ class Settings(BaseSettings):
         if self.llm_provider == "openai":
             return self.openai_api_key or None
         return None  # ollama typically needs no cloud key
+
+
+def apply_external_secrets(secrets: Mapping[str, Any]) -> None:
+    """Copy Streamlit Cloud (or other) secrets into ``os.environ``.
+
+    Nested TOML tables are flattened. Existing environment variables win so a
+    local ``.env`` / shell export is not overwritten. Call
+    ``get_settings.cache_clear()`` afterwards if settings were already loaded.
+    """
+    for key, value in secrets.items():
+        if isinstance(value, Mapping) and not isinstance(value, (str, bytes)):
+            apply_external_secrets(value)
+            continue
+        if value is None:
+            continue
+        text = str(value).strip()
+        if not text:
+            continue
+        os.environ.setdefault(str(key), text)
 
 
 @lru_cache

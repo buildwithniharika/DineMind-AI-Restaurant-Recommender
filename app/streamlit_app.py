@@ -20,7 +20,7 @@ from app.components.recommendation_card import (
     render_loading_canvas,
     render_results,
 )
-from src.config.settings import get_settings
+from src.config.settings import apply_external_secrets, get_settings
 from src.data.cache import CacheError, CacheManager
 from src.models.preferences import UserPreferences
 from src.models.recommendation import RecommendationResponse
@@ -38,6 +38,19 @@ CSS_PATH = APP_DIR / "styles" / "dinemind.css"
 def _inject_css() -> None:
     css = CSS_PATH.read_text(encoding="utf-8")
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+
+def _apply_streamlit_secrets() -> None:
+    """Load Streamlit Cloud secrets into the environment before Settings()."""
+    try:
+        secrets = st.secrets
+        mapping = secrets.to_dict() if hasattr(secrets, "to_dict") else dict(secrets)
+    except Exception:
+        return
+    if not mapping:
+        return
+    apply_external_secrets(mapping)
+    get_settings.cache_clear()
 
 
 @st.cache_resource(show_spinner=False)
@@ -75,6 +88,7 @@ def main() -> None:
         layout="wide",
         initial_sidebar_state="collapsed",
     )
+    _apply_streamlit_secrets()
     _inject_css()
     _render_header()
 
@@ -84,8 +98,17 @@ def main() -> None:
         metadata = service.metadata()
     except (CacheError, DatasetNotLoadedError, FileNotFoundError) as exc:
         st.markdown(render_error_canvas(str(exc)), unsafe_allow_html=True)
-        st.info("Run `python scripts/prepare_data.py` then refresh this page.")
+        st.info(
+            "Local: run `python scripts/prepare_data.py` and refresh. "
+            "Streamlit Cloud: confirm `data/processed/restaurants.parquet` is in the repo."
+        )
         return
+
+    if not settings.api_key_for_provider() and settings.llm_provider != "ollama":
+        st.caption(
+            "No LLM API key found — recommendations still work with rule-based explanations. "
+            "Add `GROQ_API_KEY` in Streamlit secrets (or `.env` locally) for AI rationales."
+        )
 
     left, right = st.columns([5, 7], gap="large")
 

@@ -140,10 +140,33 @@ Errors: `400` validation · `404` no matches · `502` engine failure · `503` da
 Streamlit app styled from [`Docs/design/stitch/`](Docs/design/stitch/) (exported from `stitch_dinemind_ai_restaurant_recommender_ui.zip`): preference panel, loading / empty / error canvases, and ranked recommendation cards.
 
 ```bash
-streamlit run app/streamlit_app.py
+streamlit run streamlit_app.py
+# equivalent: streamlit run app/streamlit_app.py
 ```
 
 Uses `RecommendationService` in-process (same pipeline as the API). Set `GROQ_API_KEY` for LLM explanations; without a key, cards still render via filter + fallback rationales.
+
+## Deploy on Streamlit Community Cloud
+
+The public repo is [buildwithniharika/DineMind-AI-Restaurant-Recommender](https://github.com/buildwithniharika/DineMind-AI-Restaurant-Recommender). Community Cloud builds from GitHub and does not read a local `.env`.
+
+1. Open [share.streamlit.io](https://share.streamlit.io/) and sign in with GitHub.
+2. **Create app** and select this repository (`main`).
+3. Set **Main file path** to `streamlit_app.py`.
+4. In **Advanced settings**, choose **Python 3.12** (avoid a 3.13+ default if the deploy UI offers it).
+5. Paste secrets from [`.streamlit/secrets.toml.example`](.streamlit/secrets.toml.example) and set a real `GROQ_API_KEY` from the [Groq console](https://console.groq.com/):
+
+```toml
+LLM_PROVIDER = "groq"
+GROQ_API_KEY = "gsk_your_key_here"
+LLM_MODEL = "qwen/qwen3.8-27b"
+```
+
+6. Deploy. The live URL will look like `https://<app-name>.streamlit.app`.
+
+The processed dataset (`data/processed/restaurants.parquet`) is in git so Cloud does not download the Hugging Face dump at startup. Without `GROQ_API_KEY`, the UI still ranks restaurants using the rule-based fallback.
+
+One-click deploy (GitHub must already be connected): [Deploy DineMind](https://share.streamlit.io/deploy?repository=buildwithniharika/DineMind-AI-Restaurant-Recommender&branch=main&mainModule=streamlit_app.py).
 
 ## Tests
 
@@ -162,6 +185,7 @@ pytest tests/ -v
 
 ```
 Zomato_MS/
+├── .streamlit/           # Community Cloud theme + secrets example
 ├── Docs/
 │   ├── design/stitch/    # Stitch HTML + design tokens
 │   └── …                 # Specs & plans
@@ -169,10 +193,11 @@ Zomato_MS/
 │   ├── streamlit_app.py
 │   ├── components/
 │   └── styles/dinemind.css
-├── data/processed/
+├── data/processed/restaurants.parquet
 ├── scripts/
 ├── src/
 ├── tests/
+├── streamlit_app.py      # Streamlit Cloud entrypoint
 ├── .env.example
 ├── requirements.txt
 └── README.md
@@ -182,4 +207,4 @@ Zomato_MS/
 
 ## Polish (Phase 6)
 
-Follow [Docs/implementation-plan.md](Docs/implementation-plan.md) for E2E tests and deployment.
+Follow [Docs/implementation-plan.md](Docs/implementation-plan.md) for E2E tests. Streamlit Community Cloud setup is in [Deploy on Streamlit Community Cloud](#deploy-on-streamlit-community-cloud).

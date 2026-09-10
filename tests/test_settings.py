@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from src.config.settings import Settings, get_settings
+import os
+
+from src.config.settings import Settings, apply_external_secrets, get_settings
 
 
 def test_settings_defaults():
@@ -32,3 +34,32 @@ def test_get_settings_cached():
     b = get_settings()
     assert a is b
     get_settings.cache_clear()
+
+
+def test_apply_external_secrets_sets_missing_env(monkeypatch):
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    monkeypatch.delenv("DINEMIND_TEST_NESTED", raising=False)
+    apply_external_secrets(
+        {
+            "GROQ_API_KEY": "gsk_from_streamlit",
+            "nested": {"DINEMIND_TEST_NESTED": "ok"},
+        }
+    )
+    assert os.environ["GROQ_API_KEY"] == "gsk_from_streamlit"
+    assert os.environ["DINEMIND_TEST_NESTED"] == "ok"
+
+
+def test_apply_external_secrets_does_not_override_existing_env(monkeypatch):
+    monkeypatch.setenv("GROQ_API_KEY", "already-set")
+    apply_external_secrets({"GROQ_API_KEY": "from-secrets"})
+    assert os.environ["GROQ_API_KEY"] == "already-set"
+
+
+def test_shipped_parquet_loads_for_streamlit_cloud():
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+    from src.data.cache import CacheManager
+
+    data = CacheManager(settings.processed_data_path).load()
+    assert len(data) >= 1_000
+    assert "name" in data.columns
+    assert "location" in data.columns

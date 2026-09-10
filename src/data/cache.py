@@ -40,7 +40,8 @@ class CacheManager:
         if not self.exists():
             raise CacheError(
                 f"Processed dataset not found at {self.path}. "
-                "Run `python scripts/prepare_data.py` first."
+                "Run `python scripts/prepare_data.py` locally, or include "
+                "data/processed/restaurants.parquet in the git repo for Streamlit Cloud."
             )
         try:
             data = pd.read_parquet(self.path, engine="pyarrow")

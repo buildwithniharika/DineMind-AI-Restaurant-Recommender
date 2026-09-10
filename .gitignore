@@ -38,11 +38,12 @@ htmlcov/
 .ruff_cache/
 .tox/
 
-# Data (large Hugging Face downloads & processed cache)
+# Raw Hugging Face downloads — keep the processed parquet for Streamlit Cloud
 data/*
 !data/processed/
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/restaurants.parquet
 
 # Hugging Face / datasets cache (local)
 .cache/
